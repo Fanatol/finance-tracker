@@ -30,20 +30,20 @@
 
 ## 📁 Структура проекта
 finance-app/
-├── index.html
-├── css/
-│   ├── style.css
-│   └── themes.css
-├── js/
-│   ├── app.js
-│   ├── filters.js
-│   ├── render.js
-│   ├── theme.js
-│   ├── transactions.js
-│   └── utils.js
-├── assets/
-│   └── favicon.ico
-└── README.md
+- index.html
+- css/
+  - style.css
+  - themes.css
+- js/
+  - app.js
+  - filters.js
+  - render.js
+  - theme.js
+  - transactions.js
+  - utils.js
+- assets/
+  - favicon.ico
+- README.md
 
 ## 🚀 Запуск проекта
 
