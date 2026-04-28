@@ -1,0 +1,705 @@
+/* Базовые сбросы и общие стили */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    padding: 24px;
+    min-height: 100vh;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    background-color: var(--bg-body);
+    color: var(--text-primary);
+    font-family: var(--font-family);
+}
+
+/* Класс для скрытия элементов */
+.hidden {
+    display: none !important;
+}
+
+/* ========== ОВЕРЛЕЙ ========== */
+#overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+    z-index: 999;
+    display: none;
+}
+
+#overlay.visible {
+    display: block;
+}
+
+/* ========== БОКОВОЕ МЕНЮ ========== */
+#side-menu {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 320px;
+    height: 100%;
+    z-index: 1000;
+    transform: translateX(100%);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    padding: 24px 20px;
+    box-shadow: -5px 0 25px rgba(0, 0, 0, 0.15);
+    overflow-y: auto;
+    background-color: var(--bg-sidebar);
+    color: var(--text-primary);
+}
+
+#side-menu.open {
+    transform: translateX(0);
+}
+
+#side-menu h3 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+#side-menu button {
+    width: 100%;
+    padding: 12px 16px;
+    margin-bottom: 8px;
+    border: none;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: left;
+    background-color: var(--bg-button);
+    color: var(--text-button);
+}
+
+#side-menu button:hover {
+    background-color: var(--bg-button-hover);
+}
+
+#side-menu hr {
+    margin: 16px 0;
+    opacity: 0.2;
+}
+
+#themes-select {
+    display: flex;
+    gap: 8px;
+    margin-top: 8px;
+}
+
+#themes-select button {
+    flex: 1;
+    text-align: center;
+}
+
+/* ========== КНОПКА ОТКРЫТИЯ МЕНЮ ========== */
+#menu-toggle-btn {
+    position: fixed;
+    top: 24px;
+    right: 24px;
+    z-index: 1001;
+    padding: 12px 18px;
+    border: none;
+    border-radius: 40px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    background-color: var(--bg-button);
+    color: var(--text-button);
+}
+
+#menu-toggle-btn:hover {
+    background-color: var(--bg-button-hover);
+}
+
+/* ========== МОДАЛЬНЫЕ ОКНА ========== */
+.modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1002;
+    width: 90%;
+    max-width: 700px;
+    max-height: 85vh;
+    overflow-y: auto;
+    padding: 28px;
+    border-radius: 24px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    background-color: var(--modal-bg);
+    color: var(--text-primary);
+}
+
+.modal.hidden {
+    display: none;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.modal-header h3 {
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.modal-close {
+    cursor: pointer;
+    font-size: 28px;
+    background: none;
+    border: none;
+    padding: 0;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+    color: var(--text-primary);
+}
+
+.modal-close:hover {
+    background-color: var(--bg-button-hover);
+}
+
+/* ========== БАЛАНС ========== */
+.balance-wrapper {
+    text-align: center;
+    padding: 32px 24px;
+    border-radius: 32px;
+    margin-bottom: 32px;
+    box-shadow: var(--shadow);
+    background-color: var(--bg-card);
+}
+
+#total-balance {
+    font-size: 48px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-bottom: 16px;
+}
+
+.balance-circles {
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+}
+
+.balance-circles > div {
+    font-size: 20px;
+    font-weight: 500;
+    padding: 8px 20px;
+    border-radius: 40px;
+}
+
+#total-income {
+    background-color: rgba(46, 204, 113, 0.15);
+    color: var(--accent-income);
+}
+
+#total-expense {
+    background-color: rgba(231, 76, 60, 0.15);
+    color: var(--accent-expense);
+}
+
+/* ========== ПЕРЕКЛЮЧЕНИЕ ПЛАШЕК ========== */
+.tabs-wrapper {
+    display: flex;
+    gap: 12px;
+    margin-top: 24px;
+}
+
+.tab-btn {
+    flex: 1;
+    padding: 14px 20px;
+    border: none;
+    border-radius: 60px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background-color: var(--bg-button);
+    color: var(--text-button);
+}
+
+.tab-btn:hover {
+    background-color: var(--bg-button-hover);
+}
+
+/* ========== СПИСКИ КАТЕГОРИЙ ========== */
+.categories-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 20px;
+    border-radius: 24px;
+    margin-bottom: 32px;
+    margin-top: 20px;
+    background-color: var(--bg-card);
+}
+
+.categories-container div {
+    padding: 14px 18px;
+    border-radius: 16px;
+    font-weight: 500;
+    transition: background-color 0.2s ease;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--bg-card);
+    color: var(--text-primary);
+}
+
+.categories-container div:hover {
+    background-color: var(--bg-button-hover);
+}
+
+#expense-categories-container div {
+    border-left: 4px solid var(--accent-expense);
+}
+
+#income-categories-container div {
+    border-left: 4px solid var(--accent-income);
+}
+
+/* ========== ФОРМА ДОБАВЛЕНИЯ ========== */
+.add-transaction-form {
+    padding: 24px;
+    border-radius: 24px;
+    margin-top: 32px;
+    margin-bottom: 32px;
+    box-shadow: var(--shadow);
+    background-color: var(--bg-card);
+}
+
+.add-transaction-form h3 {
+    font-size: 20px;
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+.add-transaction-form form {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.add-transaction-form input,
+.add-transaction-form select {
+    padding: 12px 16px;
+    border: 1px solid var(--accent-border);
+    border-radius: 16px;
+    font-size: 15px;
+    transition: all 0.2s ease;
+    background-color: var(--bg-card);
+    color: var(--text-primary);
+}
+
+.add-transaction-form input:focus,
+.add-transaction-form select:focus {
+    outline: none;
+    border-width: 2px;
+}
+
+#add-transaction-btn {
+    padding: 14px;
+    border: none;
+    border-radius: 16px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin-top: 8px;
+    background-color: var(--bg-button);
+    color: var(--text-button);
+}
+
+#add-transaction-btn:hover {
+    background-color: var(--bg-button-hover);
+}
+
+/* ========== ФИЛЬТРЫ ========== */
+.filters-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+.filters-wrapper select,
+.filters-wrapper button {
+    padding: 10px 16px;
+    border-radius: 40px;
+    font-size: 14px;
+    cursor: pointer;
+    border: 1px solid var(--accent-border);
+    background-color: var(--bg-card);
+    color: var(--text-primary);
+}
+
+#apply-filters-btn,
+#clear-filters-btn {
+    border: none;
+    font-weight: 500;
+    background-color: var(--bg-button);
+    color: var(--text-button);
+}
+
+#apply-filters-btn:hover,
+#clear-filters-btn:hover {
+    background-color: var(--bg-button-hover);
+}
+
+/* ========== БЛОК ПРОИЗВОЛЬНОЙ ДАТЫ ========== */
+#custom-date-range {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+#custom-date-range input {
+    flex: 1;
+    padding: 10px 14px;
+    border-radius: 12px;
+    border: 1px solid var(--accent-border);
+    background-color: var(--bg-card);
+    color: var(--text-primary);
+}
+
+/* ========== ИСТОРИЯ ТРАНЗАКЦИЙ ========== */
+#history-table-container {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+#history-table-container div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 16px;
+    margin-bottom: 8px;
+    border-radius: 16px;
+    transition: background-color 0.2s ease;
+    background-color: var(--bg-card);
+    color: var(--text-primary);
+}
+
+#history-table-container div:hover {
+    background-color: var(--bg-button-hover);
+}
+
+#history-table-container button {
+    margin-left: 12px;
+    padding: 6px 14px;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 13px;
+    transition: all 0.2s ease;
+    background-color: var(--bg-button);
+    color: var(--text-button);
+}
+
+#history-table-container button:hover {
+    background-color: var(--bg-button-hover);
+}
+
+/* ========== МОДАЛЬНЫЕ ОКНА (КОНТЕНТ) ========== */
+.modal-buttons {
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
+    margin-top: 24px;
+}
+
+.modal-buttons button {
+    padding: 10px 24px;
+    border: none;
+    border-radius: 40px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    background-color: var(--bg-button);
+    color: var(--text-button);
+}
+
+.modal-buttons button:hover {
+    background-color: var(--bg-button-hover);
+}
+
+#edit-form select,
+#edit-form input {
+    width: 100%;
+    padding: 12px 16px;
+    margin-bottom: 14px;
+    border-radius: 16px;
+    font-size: 15px;
+    border: 1px solid var(--accent-border);
+    background-color: var(--bg-card);
+    color: var(--text-primary);
+}
+
+/* ========== СКРОЛЛБАР ========== */
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background: rgba(0, 0, 0, 0.3);
+}
+
+.theme-dark ::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+/* ========== АДАПТИВНАЯ ВЁРСТКА ========== */
+
+/* Планшеты (768px и меньше) */
+@media (max-width: 768px) {
+    body {
+        padding: 16px;
+    }
+
+    #total-balance {
+        font-size: 36px;
+    }
+
+    .balance-circles {
+        gap: 16px;
+    }
+
+    .balance-circles > div {
+        font-size: 16px;
+        padding: 6px 16px;
+    }
+
+    .tab-btn {
+        padding: 10px 16px;
+        font-size: 14px;
+    }
+
+    .add-transaction-form {
+        padding: 20px;
+    }
+
+    .add-transaction-form h3 {
+        font-size: 18px;
+    }
+
+    .categories-container {
+        padding: 16px;
+    }
+
+    .categories-container div {
+        padding: 12px 14px;
+        font-size: 14px;
+    }
+
+    .modal {
+        width: 95%;
+        padding: 20px;
+    }
+
+    .modal-header h3 {
+        font-size: 20px;
+    }
+
+    .filters-wrapper {
+        gap: 8px;
+    }
+
+    .filters-wrapper select,
+    .filters-wrapper button {
+        padding: 8px 12px;
+        font-size: 13px;
+    }
+
+    #side-menu {
+        width: 280px;
+        padding: 20px 16px;
+    }
+
+    #side-menu h3 {
+        font-size: 20px;
+    }
+
+    #side-menu button {
+        padding: 10px 14px;
+        font-size: 14px;
+    }
+}
+
+/* Телефоны (480px и меньше) */
+@media (max-width: 480px) {
+    body {
+        padding: 12px;
+    }
+
+    #total-balance {
+        font-size: 28px;
+    }
+
+    .balance-wrapper {
+        padding: 20px 16px;
+        margin-bottom: 20px;
+    }
+
+    .balance-circles {
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .balance-circles > div {
+        width: 100%;
+        text-align: center;
+    }
+
+    .tabs-wrapper {
+        margin-top: 16px;
+    }
+
+    .tab-btn {
+        padding: 8px 12px;
+        font-size: 13px;
+    }
+
+    .add-transaction-form {
+        padding: 16px;
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+
+    .add-transaction-form h3 {
+        font-size: 16px;
+        margin-bottom: 14px;
+    }
+
+    .add-transaction-form input,
+    .add-transaction-form select {
+        padding: 10px 12px;
+        font-size: 14px;
+    }
+
+    #add-transaction-btn {
+        padding: 12px;
+        font-size: 14px;
+    }
+
+    .categories-container {
+        padding: 12px;
+        margin-bottom: 20px;
+        margin-top: 12px;
+        gap: 8px;
+    }
+
+    .categories-container div {
+        padding: 10px 12px;
+        font-size: 13px;
+    }
+
+    /* Скрываем скроллбар у модального окна */
+    .modal {
+        width: 95%;
+        padding: 16px;
+        overflow-y: hidden;
+    }
+
+    .modal-header h3 {
+        font-size: 18px;
+    }
+
+    .modal-close {
+        font-size: 24px;
+        width: 28px;
+        height: 28px;
+    }
+
+    .filters-wrapper {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .filters-wrapper select,
+    .filters-wrapper button {
+        width: 100%;
+    }
+
+    #custom-date-range {
+        flex-direction: column;
+    }
+
+    #history-table-container {
+        overflow-y: auto;
+        max-height: 300px;
+    }
+
+    #history-table-container div {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+
+    #history-table-container button {
+        margin-left: 0;
+        margin-right: 8px;
+    }
+
+    .modal-buttons {
+        flex-direction: column;
+    }
+
+    .modal-buttons button {
+        width: 100%;
+    }
+
+    #edit-form select,
+    #edit-form input {
+        padding: 10px 12px;
+        font-size: 14px;
+    }
+
+    #side-menu {
+        width: 100%;
+        max-width: 300px;
+    }
+}
+
+/* Мелкие телефоны (375px и меньше) */
+@media (max-width: 375px) {
+    #total-balance {
+        font-size: 24px;
+    }
+
+    .tab-btn {
+        padding: 6px 10px;
+        font-size: 12px;
+    }
+
+    .categories-container div {
+        font-size: 12px;
+    }
+
+    .filters-wrapper select,
+    .filters-wrapper button {
+        font-size: 12px;
+    }
+}

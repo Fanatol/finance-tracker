@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Личные финансы — трекер расходов и доходов</title>
+    <link rel="icon" href="assets/favicon.ico">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/themes.css">
+</head>
+<body>
+
+    <!-- ==================== БОКОВОЕ МЕНЮ (ШТОРКА) ==================== -->
+    <!-- Кнопка открытия меню -->
+    <button id="menu-toggle-btn">☰ Меню</button>
+
+    <!-- Оверлей (затемнение фона при открытом меню) -->
+    <div id="overlay"></div>
+
+    <!-- Само боковое меню -->
+    <div id="side-menu">
+        <button id="close-menu-btn">✕ Закрыть</button>
+        <h3>Меню</h3>
+        
+        <!-- Пункт для открытия истории (отдельное модальное окно) -->
+        <button id="history-link">📋 История всех транзакций</button>
+        
+        <hr>
+        
+        <!-- Экспорт и сброс данных -->
+        <button id="export-json-btn">📁 Экспорт в JSON</button>
+        <button id="reset-demo-btn">🔄 Сброс к демо-данным</button>
+        
+        <hr>
+        
+        <!-- Переключение тем (три кнопки) -->
+        <div id="themes-select">
+            <button id="theme-light-btn">☀️ Светлая</button>
+            <button id="theme-dark-btn">🌙 Тёмная</button>
+            <button id="theme-oldmoney-btn">🕰️ Old money</button>
+        </div>
+    </div>
+
+    <!-- ==================== ОСНОВНОЙ КОНТЕНТ ==================== -->
+    
+    <!-- Блок баланса (обёртка для удобной стилизации) -->
+    <div class="balance-wrapper">
+        <div id="total-balance">0 ₽</div>
+        <div class="balance-circles">
+            <div id="total-income">0 ₽</div>
+            <div id="total-expense">0 ₽</div>
+        </div>
+    </div>
+
+    <!-- ==================== ФОРМА ДОБАВЛЕНИЯ ТРАНЗАКЦИИ ==================== -->
+    <div class="add-transaction-form">
+        <h3>Добавить транзакцию</h3>
+        <form id="transaction-form">
+            <!-- Тип операции -->
+            <select id="transaction-type" required>
+                <option value="expense">Расход</option>
+                <option value="income">Доход</option>
+            </select>
+            
+            <!-- Сумма -->
+            <input type="number" id="transaction-amount" placeholder="Сумма" required>
+            
+            <!-- Категория (заполняется через JS) -->
+            <select id="transaction-category" required></select>
+            
+            <!-- Дата -->
+            <input type="date" id="transaction-date" required>
+            
+            <!-- Описание (необязательное) -->
+            <input type="text" id="transaction-description" placeholder="Описание (необязательно)">
+            
+            <!-- Кнопка добавления -->
+            <button type="button" id="add-transaction-btn">➕ Добавить</button>
+        </form>
+    </div>
+
+    <!-- Переключение плашек (Расходы / Доходы) -->
+    <div class="tabs-wrapper">
+        <button id="expense-tab" class="tab-btn active">Расходы</button>
+        <button id="income-tab" class="tab-btn">Доходы</button>
+    </div>
+    
+    <!-- Контейнеры для списка категорий (одновременно виден только один) -->
+    <div id="expense-categories-container" class="categories-container"></div>
+    <div id="income-categories-container" class="categories-container hidden"></div>
+
+    <!-- ==================== МОДАЛЬНОЕ ОКНО ИСТОРИИ ТРАНЗАКЦИЙ ==================== -->
+    <div id="history-modal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>История транзакций</h3>
+                <button id="close-history-modal" class="modal-close">✕</button>
+            </div>
+            
+            <!-- Фильтры внутри модального окна -->
+            <div class="filters-wrapper">
+                <select id="filter-type">
+                    <option value="all">Все типы</option>
+                    <option value="expense">Расходы</option>
+                    <option value="income">Доходы</option>
+                </select>
+                
+                <select id="filter-category">
+                    <option value="all">Все категории</option>
+                </select>
+                
+                <select id="filter-date-preset">
+                    <option value="all">За всё время</option>
+                    <option value="day">За день</option>
+                    <option value="week">За неделю</option>
+                    <option value="month">За месяц</option>
+                    <option value="custom">Произвольный период</option>
+                </select>
+                
+                <button id="apply-filters-btn">Применить фильтры</button>
+                <button id="clear-filters-btn">Сбросить</button>
+            </div>
+            
+            <!-- Контейнер для произвольной даты (показывается при выборе "Произвольный период") -->
+            <div id="custom-date-range" class="hidden">
+                <input type="date" id="start-date">
+                <input type="date" id="end-date">
+            </div>
+            
+            <!-- Таблица с транзакциями -->
+            <div id="history-table-container"></div>
+        </div>
+    </div>
+
+    <!-- ==================== МОДАЛЬНОЕ ОКНО ПОДТВЕРЖДЕНИЯ УДАЛЕНИЯ ==================== -->
+    <div id="delete-modal" class="modal hidden">
+        <div class="modal-content">
+            <p>Вы уверены, что хотите удалить эту транзакцию?</p>
+            <div class="modal-buttons">
+                <button id="confirm-delete-btn">Да, удалить</button>
+                <button id="cancel-delete-btn">Отмена</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== МОДАЛЬНОЕ ОКНО РЕДАКТИРОВАНИЯ ТРАНЗАКЦИИ ==================== -->
+    <div id="edit-modal" class="modal hidden">
+        <div class="modal-content">
+            <h3>Редактировать транзакцию</h3>
+            <form id="edit-form">
+                <select id="edit-type" required>
+                    <option value="expense">Расход</option>
+                    <option value="income">Доход</option>
+                </select>
+                <input type="number" id="edit-amount" placeholder="Сумма" required>
+                <select id="edit-category" required></select>
+                <input type="date" id="edit-date" required>
+                <input type="text" id="edit-description" placeholder="Описание">
+                <div class="modal-buttons">
+                    <button type="button" id="save-edit-btn">Сохранить</button>
+                    <button type="button" id="cancel-edit-btn">Отмена</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ==================== ПОДКЛЮЧЕНИЕ JS-ФАЙЛОВ ==================== -->
+    <script type="module" src="js/utils.js"></script>
+    <script type="module" src="js/transactions.js"></script>
+    <script type="module" src="js/filters.js"></script>
+    <script type="module" src="js/render.js"></script>
+    <script type="module" src="js/theme.js"></script>
+    <script type="module" src="js/app.js"></script>
+</body>
+</html>
