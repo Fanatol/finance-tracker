@@ -84,6 +84,7 @@ finance-app/
 ## 🔗 Ссылки
 - **Репозиторий:** https://github.com/Fanatol/finance-tracker
 - **GitHub Pages:** https://fanatol.github.io/finance-tracker
+- **Пояснительная записка:** https://disk.yandex.ru/i/eHYkCeAD0BhECg
 
 ## 📄 Лицензия
 Учебный проект. Свободное использование в образовательных целях.
